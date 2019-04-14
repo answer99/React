@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Card, CardImg, CardImgOverlay, CardText, CardBody,CardTitle } from 'reactstrap';
+import { Card, CardImg, CardText, CardBody,CardTitle } from 'reactstrap';
 
 class Dishdetail extends Component {
     
@@ -43,13 +43,15 @@ class Dishdetail extends Component {
     render() {
         if (this.props.selecteddish != null) {
             return(
-                <div className="row">
-                    <div className="col-12 col-md-5 m-1">
-                        {this.renderDish(this.props.selecteddish)}
-                    </div>
-                    <div className="col-12 col-md-5 m-1">
-                        <h4>Comments</h4>
-                        {this.renderComments(this.props.selecteddish.comments)}
+                <div className="container">
+                    <div className="row">
+                        <div className="col-12 col-md-5 m-1">
+                            {this.renderDish(this.props.selecteddish)}
+                        </div>
+                        <div className="col-12 col-md-5 m-1">
+                            <h4>Comments</h4>
+                            {this.renderComments(this.props.selecteddish.comments)}
+                        </div>
                     </div>
                 </div>
             );
