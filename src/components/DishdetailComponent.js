@@ -5,19 +5,25 @@ import { LocalForm, Errors, Control } from 'react-redux-form';
 import { Link } from 'react-router-dom';
 import { Loading } from './LoadingComponent';
 import { baseUrl } from '../shared/baseUrl';
+import { FadeTransform, Fade, Stagger } from 'react-animation-components';
 
 const maxLength = (len) => (val) => !(val) || (val.length <= len);
 const minLength = (len) => (val) => val && (val.length >= len);
 
 function RenderDish({dish}) {
     return (
-        <Card>
-            <CardImg width="100%" src={baseUrl + dish.image} alt={dish.name} />
-            <CardBody>
-                <CardTitle>{dish.name}</CardTitle>
-                <CardText>{dish.description}</CardText>
-            </CardBody>
-        </Card>
+        <FadeTransform in
+            transformProps={{
+                exitTransform: 'scale(0.5) translateY(-50%)'
+            }}>
+            <Card>
+                <CardImg width="100%" src={baseUrl + dish.image} alt={dish.name} />
+                <CardBody>
+                    <CardTitle>{dish.name}</CardTitle>
+                    <CardText>{dish.description}</CardText>
+                </CardBody>
+            </Card>
+        </FadeTransform>
     );
 }
 
@@ -25,20 +31,24 @@ function RenderComments({comments, dishId, postComment}) {
     if (comments !=null) {
         return (
             <div>
-                {comments.map((comment) => {
-                    var comment_day = new Date(Date.parse(comment.date));
-                    var format_date = comment_day.toLocaleDateString('en-US', {
-                        year: 'numeric',
-                        month: 'short',
-                        day: 'numeric'
-                    });
-                    return(
-                        <ul key={comment.id} className="list-unstyled">
-                            <li>{comment.comment}</li>
-                            <li>-- {comment.author}, {format_date}</li>
-                        </ul>
-                    );
-                })}
+                <Stagger in>
+                    {comments.map((comment) => {
+                        var comment_day = new Date(Date.parse(comment.date));
+                        var format_date = comment_day.toLocaleDateString('en-US', {
+                            year: 'numeric',
+                            month: 'short',
+                            day: 'numeric'
+                        });
+                        return(
+                            <Fade in>
+                            <ul key={comment.id} className="list-unstyled">
+                                <li>{comment.comment}</li>
+                                <li>-- {comment.author}, {format_date}</li>
+                            </ul>
+                            </Fade>
+                        );
+                    })}
+                </Stagger>
                 <CommentForm dishId={dishId} postComment={postComment}/>
             </div>
         );
